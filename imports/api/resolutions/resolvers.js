@@ -9,6 +9,7 @@ export default {
             }).fetch();
         }
     },
+    
     Mutation: {
         createResolution(obj, { name }, { userId }) {
             const resolutionId = Resolutions.insert({
