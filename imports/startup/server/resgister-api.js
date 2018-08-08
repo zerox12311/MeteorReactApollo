@@ -10,30 +10,15 @@ import UsersResolvers from '../../api/users/resolvers';
 
 
 // hi
-const testSchema = `
-type Query {
-    hi: String,
-    resolutions: [Resolution]
-    user: User
-}
-`;
+
 
 const typeDefs = [
-    testSchema,
     ResolutionsSchema,
     UsersSchema
 ];
 
-const testResolvers = {
-    Query: {
-        hi() {
-            return 'Hello GraphQL';
-        }
-    }
-}
 
 const resolvers = merge(
-    testResolvers,
     ResolutionsResolvers,
     UsersResolvers
 );
