@@ -6,6 +6,7 @@ import ResolutionForm from './ResolutionForm';
 import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
 import GoalForm from './GoalForm';
+import Goal from './resolutions/Goal';
 
 const App = ({ loading, resolutions, client, user }) => {
     if (loading) return null;
@@ -16,17 +17,22 @@ const App = ({ loading, resolutions, client, user }) => {
                     Meteor.logout();
                     client.resetStore();
                 }}>Logout</button>
-            ):(
-                <div>
-                    <RegisterForm client={client} />
-                    <LoginForm client={client} />
-                </div>
-            )}
+            ) : (
+                    <div>
+                        <RegisterForm client={client} />
+                        <LoginForm client={client} />
+                    </div>
+                )}
             <ResolutionForm />
             <ul>
                 {resolutions.map(resolution => (
                     <li key={resolution._id}>
                         {resolution.name}
+                        <ul>
+                            {resolution.goals.map(goal => (
+                                <Goal goal={goal} key={goal._id} />
+                            ))}
+                        </ul>
                         <GoalForm resolutionId={resolution._id} />
                     </li>
                 ))}
@@ -41,6 +47,10 @@ const resolutionsQuery = gql`
         resolutions {
             _id
             name
+            goals {
+                _id
+                name
+            }
         }
         user {
             _id
@@ -49,8 +59,7 @@ const resolutionsQuery = gql`
 `;
 
 export default graphql(resolutionsQuery, {
-    props: ({ data }) => ({ ...data }
-    )
+    props: ({ data }) => ({ ...data }),
 })(withApollo(App));
 
 // export default withApollo(LoginForm);
