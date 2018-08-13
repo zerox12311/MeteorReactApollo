@@ -12,6 +12,10 @@ const createResolution = gql`
 `;
 
 export class ResolutionForm extends Component {
+    state = {
+        error: null
+    }
+
     submitForm = () => {
         this.props.createResolution({
             variables: {
@@ -21,12 +25,14 @@ export class ResolutionForm extends Component {
             // this.props.refetch();
         }).catch(error => {
             console.log(error);
+            this.setState({ error: error.message });
         });
     };
 
     render() {
         return (
             <div>
+                {this.state.error && <p>{this.state.error}</p>}
                 <input type="text" ref={(input => (this.name = input))} />
                 <button onClick={this.submitForm}>Submit</button>
             </div>
