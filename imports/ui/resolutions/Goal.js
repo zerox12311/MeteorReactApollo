@@ -10,14 +10,23 @@ class Goal extends Component {
                 id: this.props.goal._id
             }
         })
-    }
+    };
     render() {
+        const { goal } = this.props;
         return (
-            <div>
-                <input type="checkbox" onChange={this.toggleGoal} checked={this.props.goal.completed} />
-                {this.props.goal.completed}
-                {this.props.goal.name}
-            </div>
+            <li>
+                <input type="checkbox"
+                    onChange={this.toggleGoal}
+                    checked={goal.completed}
+                />
+                <span
+                    style={{
+                        textDecoration: goal.completed ? 'line-through' : 'none'
+                    }}
+                >
+                    {this.props.goal.name}
+                </span>
+            </li>
         )
     }
 };

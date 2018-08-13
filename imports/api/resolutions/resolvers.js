@@ -9,7 +9,7 @@ export default {
             }).fetch();
         }
     },
-    
+
     Mutation: {
         createResolution(obj, { name }, { userId }) {
             const resolutionId = Resolutions.insert({
@@ -25,6 +25,14 @@ export default {
             return Goals.find({
                 resolutionId: resolution._id
             }).fetch();
+        },
+        completed: resolution => {
+            const goals = Goals.find({
+                resolutionId: resolution._id
+            }).fetch();
+            if (goals.length === 0) return false;
+            const completedGoals = goals.filter(goal => goal.completed);
+            return goals.length === completedGoals.length
         }
     }
 };
